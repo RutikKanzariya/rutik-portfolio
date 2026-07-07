@@ -1,4 +1,9 @@
 import React, { useState, useEffect } from "react";
+
+// EmailJS credentials (public/client-side — safe to commit)
+const EMAILJS_SERVICE_ID  = "service_jfxoid7";
+const EMAILJS_TEMPLATE_ID = "template_xzxcb56";
+const EMAILJS_PUBLIC_KEY  = "u3u93sGraYKADthzE";
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
 import {
@@ -53,8 +58,7 @@ export default function Contact() {
   const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
-    // Initialize EmailJS with the public key once on mount
-    emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+    emailjs.init(EMAILJS_PUBLIC_KEY);
   }, []);
 
   const handleChange = (e) =>
@@ -66,8 +70,8 @@ export default function Contact() {
     setErrorMsg("");
     try {
       await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
         {
           from_name: form.name,
           from_email: form.email,

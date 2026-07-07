@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 // EmailJS credentials (public/client-side — safe to commit)
 const EMAILJS_SERVICE_ID  = "service_jfxoid7";
 const EMAILJS_TEMPLATE_ID = "template_xzxcb56";
-const EMAILJS_PUBLIC_KEY  = "u3u93sGraYKADthzE";
+const EMAILJS_PUBLIC_KEY  = "AfJAvXRBFlNizz1Dr";
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
 import {

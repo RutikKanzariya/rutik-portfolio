@@ -13,15 +13,6 @@ const navLinks = [
   { label: 'Contact', to: '#contact' },
 ]
 
-function scrollTo(id) {
-  const el = document.querySelector(id)
-  if (!el) return
-  const navbar = document.querySelector('header')
-  const navbarHeight = navbar ? navbar.offsetHeight : 64
-  const top = el.getBoundingClientRect().top + window.scrollY - navbarHeight
-  window.scrollTo({ top, behavior: 'smooth' })
-}
-
 const Navbar = memo(function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
@@ -47,8 +38,14 @@ const Navbar = memo(function Navbar() {
 
   const handleNavClick = (e, to) => {
     e.preventDefault()
-    scrollTo(to)
+    // Close the menu first, then scroll after the layout settles
     setOpen(false)
+    setTimeout(() => {
+      const el = document.querySelector(to)
+      if (!el) return
+      // scroll-margin-top: 100px is set in index.css — scrollIntoView respects it natively
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 250)
   }
 
   return (
@@ -113,11 +110,12 @@ const Navbar = memo(function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.nav
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden overflow-hidden bg-[#0f172a]/95 backdrop-blur-md mx-4 mt-2 rounded-2xl border border-white/10"
+            className="md:hidden mx-4 mt-2 rounded-2xl border border-white/10 overflow-hidden"
+            style={{ background: '#0d1224' }}
           >
             <div className="flex flex-col p-4 gap-1">
               {navLinks.map((link) => (
@@ -125,7 +123,7 @@ const Navbar = memo(function Navbar() {
                   key={link.to}
                   href={link.to}
                   onClick={(e) => handleNavClick(e, link.to)}
-                  className="px-4 py-3 text-slate-300 hover:text-white rounded-xl cursor-pointer transition-colors hover:bg-white/5"
+                  className="px-4 py-3 text-slate-300 hover:text-white rounded-xl cursor-pointer transition-colors hover:bg-white/5 text-base font-medium"
                 >
                   {link.label}
                 </a>

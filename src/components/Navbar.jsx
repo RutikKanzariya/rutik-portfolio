@@ -16,7 +16,10 @@ const navLinks = [
 function scrollTo(id) {
   const el = document.querySelector(id)
   if (!el) return
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  const navbar = document.querySelector('header')
+  const navbarHeight = navbar ? navbar.offsetHeight : 64
+  const top = el.getBoundingClientRect().top + window.scrollY - navbarHeight
+  window.scrollTo({ top, behavior: 'smooth' })
 }
 
 const Navbar = memo(function Navbar() {
@@ -114,7 +117,7 @@ const Navbar = memo(function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden overflow-hidden glass-card mx-4 mt-2 rounded-2xl border border-white/10"
+            className="md:hidden overflow-hidden bg-[#0f172a]/95 backdrop-blur-md mx-4 mt-2 rounded-2xl border border-white/10"
           >
             <div className="flex flex-col p-4 gap-1">
               {navLinks.map((link) => (

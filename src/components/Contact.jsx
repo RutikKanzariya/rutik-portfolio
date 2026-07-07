@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
 import {
@@ -47,10 +47,15 @@ export default function Contact() {
     name: "",
     email: "",
     subject: "",
-
     message: "",
   });
   const [status, setStatus] = useState("idle"); // idle | sending | success | error
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    // Initialize EmailJS with the public key once on mount
+    emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY);
+  }, []);
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -58,6 +63,7 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("sending");
+    setErrorMsg("");
     try {
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
@@ -67,8 +73,7 @@ export default function Contact() {
           from_email: form.email,
           subject: form.subject,
           message: form.message,
-        },
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+        }
       );
       setStatus("success");
       setTimeout(() => {
@@ -76,9 +81,13 @@ export default function Contact() {
         setStatus("idle");
       }, 3500);
     } catch (err) {
+      // Show exact error on screen so we can debug without DevTools
+      const msg =
+        err?.text || err?.message || JSON.stringify(err) || "Unknown error";
       console.error("EmailJS error:", err);
+      setErrorMsg(msg);
       setStatus("error");
-      setTimeout(() => setStatus("idle"), 3500);
+      setTimeout(() => setStatus("idle"), 6000);
     }
   };
 
@@ -280,6 +289,13 @@ export default function Contact() {
                   </>
                 )}
               </motion.button>
+
+              {/* Debug: show actual error on screen */}
+              {status === "error" && errorMsg && (
+                <p className="text-red-400 text-xs mt-2 text-center break-all">
+                  Error: {errorMsg}
+                </p>
+              )}
             </form>
           </motion.div>
         </div>

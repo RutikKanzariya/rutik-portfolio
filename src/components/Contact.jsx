@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 
 // EmailJS credentials (public/client-side — safe to commit)
-const EMAILJS_SERVICE_ID  = "service_jfxoid7";
-const EMAILJS_TEMPLATE_ID = "template_xzxcb56";
-const EMAILJS_PUBLIC_KEY  = "AfJAvXRBFlNizz1Dr";
+const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 import emailjs from "@emailjs/browser";
 import { motion } from "framer-motion";
 import {
@@ -77,7 +77,8 @@ export default function Contact() {
           from_email: form.email,
           subject: form.subject,
           message: form.message,
-        }
+        },
+        EMAILJS_PUBLIC_KEY,
       );
       setStatus("success");
       setTimeout(() => {

@@ -7,10 +7,16 @@ export default defineConfig({
     // Split chunks for better caching
     rollupOptions: {
       output: {
-        manualChunks: {
-          'react-vendor': ['react', 'react-dom'],
-          'framer': ['framer-motion'],
-          'lucide': ['lucide-react'],
+        manualChunks(id) {
+          if (id.includes('node_modules/react') || id.includes('node_modules/react-dom')) {
+            return 'react-vendor'
+          }
+          if (id.includes('node_modules/framer-motion')) {
+            return 'framer'
+          }
+          if (id.includes('node_modules/lucide-react')) {
+            return 'lucide'
+          }
         },
       },
     },

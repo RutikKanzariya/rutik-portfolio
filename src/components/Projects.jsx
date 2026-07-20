@@ -281,7 +281,7 @@ const Projects = memo(function Projects() {
           className="text-center mt-12"
         >
           <a
-            href="https://github.com/rutik-kanzariya"
+            href="https://github.com/rutikkanzariya"
             target="_blank"
             rel="noopener noreferrer"
             className="btn-outline inline-flex items-center gap-2"

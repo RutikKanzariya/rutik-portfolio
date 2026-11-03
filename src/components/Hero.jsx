@@ -10,10 +10,10 @@ import {
 } from "lucide-react";
 
 const roles = [
-  "Data Science Engineer",
+  "Software Engineer",
   "AI & ML Engineer",
-  "Python Developer",
-  "NLP Engineer",
+  "Data Science Engineer",
+
 ];
 
 const stats = [

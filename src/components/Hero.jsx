@@ -200,7 +200,7 @@ const Hero = memo(function Hero() {
             <Eye size={18} /> View Projects
           </button>
           <a
-            href="/resume.pdf"
+            href="/Rutik_Kanzariya_Resume.pdf (4).pdf"
             download
             className="btn-outline flex items-center gap-2"
           >
